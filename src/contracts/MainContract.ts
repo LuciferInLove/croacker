@@ -348,10 +348,8 @@ export function loadEditCroak(slice: Slice) {
     $$type: 'CroakerParent_init_args';
 }
 
-function initCroakerParent_init_args(src: CroakerParent_init_args) {
-    return (builder: Builder) => {
-        let b_0 = builder;
-    };
+function initCroakerParent_init_args(_: CroakerParent_init_args) {
+    return (_: Builder) => {};
 }
 
 async function CroakerParent_init() {
