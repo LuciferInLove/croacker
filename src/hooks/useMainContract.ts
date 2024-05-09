@@ -63,43 +63,50 @@ export function useMainContract(network: Network) {
   const loadBatchOfCroaks = async (nextCroakNumber?: number) => {
     let croaks: PostProps[] = [];
     let isLastCroak: boolean = false;
+    const maxRetries = 3;
 
-    try {
-      let i = 1;
-      const totalCroaks = await mainContract?.getNumCroaks() || 0;
-      if (totalCroaks === 0) {
-        isLastCroak = true;
-      }
-      if (nextCroakNumber === undefined) {
-        nextCroakNumber = Number(totalCroaks);
-      }
-      while (i <= postsBatchSize && nextCroakNumber > 0) {
-        const seqno: bigint = BigInt(nextCroakNumber);
-        const croakAddress = await mainContract?.getCroakAddress(seqno);
-        if (croakAddress) {
-          const contract = CroakerChild.fromAddress(croakAddress);
-          const childCroak = client?.open(contract) as OpenedContract<CroakerChild>;
-          const details = await childCroak?.getDetails();
-          const owner = await childCroak?.getOwner();
-
-          croaks.push({
-            croak: details?.croak,
-            username: details?.userid,
-            avatarUrl: gravatarUrl(details?.userid),
-            owner: owner || undefined,
-            seqno: seqno,
-          });
-
-          if (nextCroakNumber === 1) {
-            isLastCroak = true;
-            break;
-          }
-          nextCroakNumber--;
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+      croaks = [];
+      try {
+        let i = 1;
+        const totalCroaks = await mainContract?.getNumCroaks() || 0;
+        if (totalCroaks === 0) {
+          isLastCroak = true;
         }
-        i++;
+        if (nextCroakNumber === undefined) {
+          nextCroakNumber = Number(totalCroaks);
+        }
+        while (i <= postsBatchSize && nextCroakNumber > 0) {
+          const seqno: bigint = BigInt(nextCroakNumber);
+          const croakAddress = await mainContract?.getCroakAddress(seqno);
+          if (croakAddress) {
+            const contract = CroakerChild.fromAddress(croakAddress);
+            const childCroak = client?.open(contract) as OpenedContract<CroakerChild>;
+            const details = await childCroak?.getDetails();
+            const owner = await childCroak?.getOwner();
+
+            croaks.push({
+              croak: details?.croak,
+              username: details?.userid,
+              avatarUrl: gravatarUrl(details?.userid),
+              owner: owner || undefined,
+              seqno: seqno,
+            });
+
+            if (nextCroakNumber === 1) {
+              isLastCroak = true;
+              break;
+            }
+            nextCroakNumber--;
+          }
+          i++;
+        };
+        break;
+      } catch (error: any) {
+        if (attempt + 1 === maxRetries) {
+          setInitError(error);
+        }
       }
-    } catch (error: any) {
-      setInitError(error);
     }
 
     return {
