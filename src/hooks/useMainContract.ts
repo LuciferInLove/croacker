@@ -65,23 +65,19 @@ export function useMainContract(network: Network) {
     let isLastCroak: boolean = false;
     const maxRetries = 3;
 
-    // Get total number of croaks
-    try {
-      const totalCroaks = await mainContract?.getNumCroaks() || 0;
+    // Try to fetch croaks
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+      try {
+        // Get total number of croaks
+        const totalCroaks = await mainContract?.getNumCroaks() || 0;
         if (totalCroaks === 0) {
           isLastCroak = true;
         }
         if (nextCroakNumber === undefined) {
           nextCroakNumber = Number(totalCroaks);
         }
-    } catch (error: any) {
-      setInitError(error);
-      return;
-    }
 
-    // Try to fetch croaks
-    for (let attempt = 0; attempt < maxRetries; attempt++) {
-      try {
+        // Reset values for each attempt
         croaks = [];
         let croaksCounter = nextCroakNumber;
         let i = 1;
