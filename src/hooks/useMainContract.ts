@@ -65,19 +65,29 @@ export function useMainContract(network: Network) {
     let isLastCroak: boolean = false;
     const maxRetries = 3;
 
-    for (let attempt = 0; attempt < maxRetries; attempt++) {
-      croaks = [];
-      try {
-        let i = 1;
-        const totalCroaks = await mainContract?.getNumCroaks() || 0;
+    // Get total number of croaks
+    try {
+      const totalCroaks = await mainContract?.getNumCroaks() || 0;
         if (totalCroaks === 0) {
           isLastCroak = true;
         }
         if (nextCroakNumber === undefined) {
           nextCroakNumber = Number(totalCroaks);
         }
-        while (i <= postsBatchSize && nextCroakNumber > 0) {
-          const seqno: bigint = BigInt(nextCroakNumber);
+    } catch (error: any) {
+      setInitError(error);
+      return;
+    }
+
+    // Try to fetch croaks
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+      try {
+        croaks = [];
+        let croaksCounter = nextCroakNumber;
+        let i = 1;
+
+        while (i <= postsBatchSize && croaksCounter > 0) {
+          const seqno: bigint = BigInt(croaksCounter);
           const croakAddress = await mainContract?.getCroakAddress(seqno);
           if (croakAddress) {
             const contract = CroakerChild.fromAddress(croakAddress);
@@ -93,26 +103,26 @@ export function useMainContract(network: Network) {
               seqno: seqno,
             });
 
-            if (nextCroakNumber === 1) {
+            if (croaksCounter === 1) {
               isLastCroak = true;
               break;
             }
-            nextCroakNumber--;
+            croaksCounter--;
           }
           i++;
         };
-        break;
+
+        return {
+          croaks: croaks,
+          isLastCroak: isLastCroak,
+          nextCroakNumber: croaksCounter,
+        }
       } catch (error: any) {
         if (attempt + 1 === maxRetries) {
           setInitError(error);
+          return;
         }
       }
-    }
-
-    return {
-      croaks: croaks,
-      isLastCroak: isLastCroak,
-      nextCroakNumber: nextCroakNumber,
     }
   };
 
