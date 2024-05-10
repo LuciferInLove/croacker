@@ -11,17 +11,29 @@ import WebApp from "@twa-dev/sdk";
 import { Sender } from "ton-core";
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import Image from './assets/croacker.png';
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 const useStyles = makeStyles({
+  container: {
+    position: 'relative',
+    width: '100%', // adjust as needed
+    height: '135px', // adjust as needed
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+  },
   header: {
+    position: 'absolute',
+    bottom: '-30px',
     display: 'flex',
-    justifyContent: 'flex-end !important',
-    alignItems: 'center',
-    padding: '10px',
+    justifyContent: 'center', // align items to the center
+    width: '100%',
   },
   tonConnectButton: {
     marginLeft: '10px !important',
@@ -34,7 +46,13 @@ const useStyles = makeStyles({
     height: '45px',
     borderRadius: '50%/100%',
     backgroundColor: '#5cb85c',
-  }
+  },
+  croaks: {
+    marginTop: '40px', // adjust as needed to add space between the image/buttons and the Croaks
+    maxWidth: '100%', // set the maximum width to match the image
+    margin: 'auto', // center the container
+    overflow: 'hidden',
+  },
 });
 
 const Post: React.FC<
@@ -50,7 +68,7 @@ const Post: React.FC<
     sender,
     seqno
   }) => (
-    <div style={{ borderBottom: '1px solid #0a9169', padding: '10px' }}>
+    <div style={{ borderBottom: '1px solid #0a9169', padding: '10px', width: '100%' }}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <img src={avatarUrl} alt={`${username}'s avatar`} style={{ width: '25px', borderRadius: '50%', marginRight: '10px' }} />
         <p style={{ color: '#09805c' }}><strong>@{username}</strong> wrote:</p>
@@ -58,7 +76,9 @@ const Post: React.FC<
           <button onClick={() => {handleEditClick(croak, username, seqno)}} style={{ marginLeft: 'auto', padding: '6px', color: '#09805c' }}>✏️</button>
         )}
       </div>
-      <p style={{ whiteSpace: 'pre-wrap' }}>{croak} </p>
+      <div style={{ width: '290px', whiteSpace: 'pre-wrap', overflowWrap: 'break-word' }}>
+        <p>{croak}</p>
+      </div>
     </div>
 );
 
@@ -168,35 +188,38 @@ function App() {
 
   return (
     <div>
-      <header className={classes.header}>
-        <button
-          className={classes.tonNetworkButton}
-          onClick={() => {
-            const newNetwork = network === "testnet" ? "mainnet" : "testnet";
-            setNetwork(newNetwork);
-            localStorage.setItem("network", newNetwork);
-            tonConnectUI.disconnect()
-            window.location.reload();
-          }}
-        >
-          <b>{network}</b>
-        </button>
-        <TonConnectButton className={classes.tonConnectButton} />
-      </header>
-      <div>
-        {posts.map((post, index) => (
-          <Post
-            key={index}
-            croak={post.croak}
-            username={post.username}
-            avatarUrl={post.avatarUrl}
-            handleEditClick={handleEditClick}
-            sender={sender}
-            owner={post.owner}
-            seqno={post.seqno}
-          />
-        ))}
-        {isNextPageLoading && <div>Fetching croaks...</div>}
+      <div className={classes.container}>
+        <img src={Image} alt="head" className={classes.image} />
+        <header className={classes.header}>
+          <button
+            className={classes.tonNetworkButton}
+            onClick={() => {
+              const newNetwork = network === "testnet" ? "mainnet" : "testnet";
+              setNetwork(newNetwork);
+              localStorage.setItem("network", newNetwork);
+              tonConnectUI.disconnect()
+              window.location.reload();
+            }}
+          >
+            <b>{network}</b>
+          </button>
+          <TonConnectButton className={classes.tonConnectButton} />
+        </header>
+        <div className={classes.croaks}>
+          {posts.map((post, index) => (
+            <Post
+              key={index}
+              croak={post.croak}
+              username={post.username}
+              avatarUrl={post.avatarUrl}
+              handleEditClick={handleEditClick}
+              sender={sender}
+              owner={post.owner}
+              seqno={post.seqno}
+            />
+          ))}
+          {isNextPageLoading && <div>Fetching croaks...</div>}
+        </div>
       </div>
       <div>
         {connected && (
