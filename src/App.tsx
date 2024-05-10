@@ -20,19 +20,21 @@ function Alert(props: AlertProps) {
 const useStyles = makeStyles({
   container: {
     position: 'relative',
-    width: '100%', // adjust as needed
-    height: '150px', // adjust as needed
+    width: '100%',
+    height: '150px',
   },
   image: {
     width: '100%',
     height: '100%',
     objectFit: 'cover',
+    marginLeft: '-2px',
+    marginRight: '-2px',
   },
   header: {
     position: 'absolute',
     bottom: '-30px',
     display: 'flex',
-    justifyContent: 'center', // align items to the center
+    justifyContent: 'center',
     width: '100%',
   },
   tonConnectButton: {
@@ -48,10 +50,9 @@ const useStyles = makeStyles({
     backgroundColor: '#5cb85c',
   },
   croaks: {
-    marginTop: '40px', // adjust as needed to add space between the image/buttons and the Croaks
-    maxWidth: '100%', // set the maximum width to match the image
-    margin: 'auto', // center the container
-    overflow: 'hidden',
+    marginTop: '40px',
+    maxWidth: '100%',
+    margin: 'auto'
   },
 });
 
