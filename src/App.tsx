@@ -27,8 +27,8 @@ const useStyles = makeStyles({
     width: '100%',
     height: '100%',
     objectFit: 'cover',
-    marginLeft: '-2px',
-    marginRight: '-2px',
+    marginLeft: '5px',
+    marginRight: '5px',
   },
   header: {
     position: 'absolute',
