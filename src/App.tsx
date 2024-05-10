@@ -21,7 +21,7 @@ const useStyles = makeStyles({
   container: {
     position: 'relative',
     width: '100%', // adjust as needed
-    height: '135px', // adjust as needed
+    height: '150px', // adjust as needed
   },
   image: {
     width: '100%',
@@ -43,7 +43,7 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100px',
-    height: '45px',
+    height: '41px',
     borderRadius: '50%/100%',
     backgroundColor: '#5cb85c',
   },
