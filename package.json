@@ -13,7 +13,6 @@
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
     "@material-ui/lab": "^4.0.0-alpha.61",
-    "@orbs-network/ton-access": "^2.3.3",
     "@ton/core": "^0.56.3",
     "@tonconnect/ui-react": "^2.0.2",
     "@twa-dev/sdk": "^7.0.0",

@@ -6,7 +6,6 @@ import { useTonConnect } from "./hooks/useTonConnect";
 import CreatePostButton from './components/CreatePostButton';
 import CroakDialog from './components/CroakDialog';
 import { makeStyles } from '@material-ui/core/styles';
-import { Network } from '@orbs-network/ton-access';
 import WebApp from "@twa-dev/sdk";
 import { Sender } from "ton-core";
 import Snackbar from '@material-ui/core/Snackbar';
@@ -85,8 +84,8 @@ const Post: React.FC<
 
 
 function App() {
-  const [network, setNetwork] = useState<Network>(() => {
-    return (localStorage.getItem("network") as Network) || "testnet";
+  const [network, setNetwork] = useState<string>(() => {
+    return (localStorage.getItem("network") as string) || "testnet";
   });
   const {
     mainContract,

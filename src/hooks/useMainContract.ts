@@ -5,7 +5,6 @@ import { gravatarUrl } from "../helpers/helpers";
 import { useTonClient } from "./useTonClient";
 import { useAsyncInitialize } from "./useAsyncInitialize";
 import { Address, OpenedContract, toNano } from "ton-core";
-import { Network } from '@orbs-network/ton-access';
 import { useTonConnect } from "./useTonConnect";
 
 const contractAddr = "EQCny0NfOaD58D_NOUh9biE2Zxqn6gZAnCo6pNCVvJXwk3Z_"
@@ -26,7 +25,7 @@ export interface BatchOfCroaks {
   nextCroakNumber: number;
 }
 
-export function useMainContract(network: Network) {
+export function useMainContract(network: string) {
   const client = useTonClient(network);
   const { sender } = useTonConnect();
   const [initError, setInitError] = useState<Error | null>(null);
