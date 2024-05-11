@@ -2,7 +2,8 @@
 
 This is a Telegram mini-dApp that implements a decentralized social network built on TON blockchain.
 
-![screenshot](https://github.com/LuciferInLove/croacker/assets/34190954/879c1b7d-7558-4f5d-acd3-254372d80a3a)
+<img src="https://github.com/LuciferInLove/croacker/assets/34190954/0e6c77a1-9ab0-4b6e-9d9f-7b034ade5be3" width="300">
+
 
 The app uses your Telegram username to save croaks.
 
