@@ -85,7 +85,7 @@ const Post: React.FC<
 
 function App() {
   const [network, setNetwork] = useState<string>(() => {
-    return (localStorage.getItem("network") as string) || "testnet";
+    return (localStorage.getItem("network") as string) || "mainnet";
   });
   const {
     mainContract,
