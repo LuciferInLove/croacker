@@ -7,7 +7,7 @@ import CreatePostButton from './components/CreatePostButton';
 import CroakDialog from './components/CroakDialog';
 import { makeStyles } from '@material-ui/core/styles';
 import WebApp from "@twa-dev/sdk";
-import { Sender } from "ton-core";
+import { Sender } from "@ton/core";
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import Image from './assets/croacker.png';

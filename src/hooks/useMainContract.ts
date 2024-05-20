@@ -4,7 +4,7 @@ import { CroakerChild } from "../contracts/ChildContract";
 import { gravatarUrl } from "../helpers/helpers";
 import { useTonClient } from "./useTonClient";
 import { useAsyncInitialize } from "./useAsyncInitialize";
-import { Address, OpenedContract, toNano } from "ton-core";
+import { Address, OpenedContract, toNano } from "@ton/core";
 import { useTonConnect } from "./useTonConnect";
 
 const contractAddr = "EQCny0NfOaD58D_NOUh9biE2Zxqn6gZAnCo6pNCVvJXwk3Z_"

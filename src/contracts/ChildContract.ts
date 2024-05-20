@@ -14,7 +14,7 @@ import {
     ABIGetter,
     ABIReceiver,
     TupleBuilder
-} from 'ton-core';
+} from '@ton/core';
 
 export type StateInit = {
     $$type: 'StateInit';
